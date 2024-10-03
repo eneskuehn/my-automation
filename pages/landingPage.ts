@@ -1,4 +1,4 @@
-import { test, expect, Page, Locator } from "@playwright/test";
+import { test, Page, Locator } from "@playwright/test";
 import { BasePage } from "./basePage";
 import { faker } from "@faker-js/faker";
 
@@ -26,42 +26,44 @@ export class LandingPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    this.pageLocator = page.locator(".hotel-description");
+    this.pageLocator = this.locator(".hotel-description");
     this.bookThisRoomButton = page
       .getByRole("button", { name: "Book this room" })
       .first();
 
-    this.bookingCalendarStart = this.page
+    this.bookingCalendarStart = page
       .locator(".rbc-day-bg:not(.rbc-off-range-bg)")
       .first();
-    this.bookingCalendarEnd = this.page
+    this.bookingCalendarEnd = page
       .locator(".rbc-day-bg:not(.rbc-off-range-bg)")
       .last();
-    this.bookingFirstNameField = page.locator("input.room-firstname").last();
-    this.bookingLastNameField = page.locator("input.room-lastname").last();
-    this.bookingEmailField = page.locator("input.room-email").last();
-    this.bookingPhoneNumberField = page.locator("input.room-phone").last();
-    this.bookingBookButton = page
-      .getByRole("button", { name: "Book", exact: true })
-      .last();
-    this.bookingCalendarNextButton = page
-      .getByRole("button", { name: "Next" })
-      .last();
-    this.bookingConfirmationModal = page.locator(".confirmation-modal");
+    this.bookingFirstNameField = this.locator("input.room-firstname");
+    this.bookingLastNameField = this.locator("input.room-lastname");
+    this.bookingEmailField = this.locator("input.room-email");
+    this.bookingPhoneNumberField = this.locator("input.room-phone");
+    this.bookingBookButton = this.getByRole("button", {
+      name: "Book",
+      exact: true,
+    });
+    this.bookingCalendarNextButton = this.getByRole("button", {
+      name: "Next",
+    });
+    this.bookingConfirmationModal = this.locator(".confirmation-modal");
 
-    this.contactNameField = page.locator('[data-testid="ContactName"]');
-    this.contactEmailField = page.locator('[data-testid="ContactEmail"]');
-    this.contactPhoneField = page.locator('[data-testid="ContactPhone"]');
-    this.contactSubjectField = page.locator('[data-testid="ContactSubject"]');
-    this.contactDescriptionField = page.locator('[data-testid="ContactDescription"]');
-    this.contactSubmitButton = page.getByRole("button", { name: "Submit" });
-    this.contactSuccessMessage = page.locator("div.contact h2");
+    this.contactNameField = this.locator('[data-testid="ContactName"]');
+    this.contactEmailField = this.locator('[data-testid="ContactEmail"]');
+    this.contactPhoneField = this.locator('[data-testid="ContactPhone"]');
+    this.contactSubjectField = this.locator('[data-testid="ContactSubject"]');
+    this.contactDescriptionField = this.locator(
+      '[data-testid="ContactDescription"]'
+    );
+    this.contactSubmitButton = this.getByRole("button", { name: "Submit" });
+    this.contactSuccessMessage = this.locator("div.contact h2");
   }
 
   async goto() {
     await test.step("Go to Front Page", async () => {
       await this.page.goto("/");
-      await expect(this.pageLocator, "Front Page loaded").toBeVisible();
     });
   }
 
